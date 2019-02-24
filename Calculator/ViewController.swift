@@ -14,25 +14,34 @@ class ViewController: UIViewController {
     
     private var isFinishedTypingNumber = true
     
+    // cool use of computed property!
+    private var displayValue: Double {
+        get {
+            guard let number = Double(displayLabel.text!) else {
+                fatalError("Cannot convert display label text to Double.")
+            }
+            return number
+        }
+        set {
+            displayLabel.text = String(newValue)
+        }
+    }
+    
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         
         //What should happen when a non-number button is pressed
         
-        guard let number = Double(displayLabel.text!) else {
-            fatalError("Cannot convert display label text to Double.")
-        }
+        
         
         if let calcMethod = sender.currentTitle {
             
             if calcMethod == "+/-" {
-                print(number)
-                print(number * -1.0)
-                displayLabel.text = String(number * -1.0)
+                displayValue *= -1
             } else if calcMethod == "AC" {
                 displayLabel.text = "0"
                 isFinishedTypingNumber = true
             } else if calcMethod == "%" {
-                displayLabel.text = String(number * 0.01)
+                displayValue *= 0.01
             }
         }
         
