@@ -45,10 +45,18 @@ class ViewController: UIViewController {
         
         if let numValue = sender.currentTitle {
             if isFinishedTypingNumber {
-                displayLabel.text = numValue
+                displayLabel.text = (numValue == ".") ? "0." : numValue
                 isFinishedTypingNumber = false
             } else {
-                displayLabel.text = displayLabel.text! + numValue
+                
+                if numValue == "." {
+                    if !displayLabel.text!.contains(".") {
+                        displayLabel.text = displayLabel.text! + numValue
+                    }
+                } else {
+                    displayLabel.text = displayLabel.text! + numValue
+                }
+                
             }
             
         }
