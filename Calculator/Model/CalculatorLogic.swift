@@ -13,22 +13,48 @@ import Foundation
 struct CalculatorLogic {
     
     private var number : Double?
+    private var intermediateCalc: (n1: Double, calcMethod: String)?
     
     // remember that alteration of attributes in struct objects need mutating methods!
     mutating func setNumber(_ number: Double) {
         self.number = number
     }
     
-    func calculate(symbol: String) -> Double? {
+    mutating func calculate(symbol: String) -> Double? {
         
         if let n = number {
-            if symbol == "+/-" {
+            switch symbol {
+            case "+/-":
                 return n * -1
-            } else if symbol == "AC" {
+            case "AC":
                 return 0
                 //            isFinishedTypingNumber = true
-            } else if symbol == "%" {
+            case "%":
                 return n * 0.01
+            case "=":
+                return performTwoNumCalculation(n2: n)
+            default:
+                intermediateCalc = (n1: n, calcMethod: symbol)
+            }
+        }
+        return nil
+    }
+    
+    private func performTwoNumCalculation(n2: Double) -> Double? {
+        
+        if let n1 = intermediateCalc?.n1, let operation = intermediateCalc?.calcMethod {
+            
+            switch operation {
+            case "+":
+                return n1 + n2
+            case "-":
+                return n1 - n2
+            case "×":
+                return n1 * n2
+            case "÷":
+                return n1 / n2
+            default:
+                fatalError("Operation passed to calculator does not match any cases.")
             }
         }
         

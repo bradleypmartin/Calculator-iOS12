@@ -33,14 +33,11 @@ class ViewController: UIViewController {
         
         //What should happen when a non-number button is pressed
         if let calcMethod = sender.currentTitle {
-        
             
-            
-            guard let result = calculator.calculate(symbol: calcMethod) else {
-                fatalError("The result of the calculation is nil.")
+            if let result = calculator.calculate(symbol: calcMethod) {
+                displayValue = result
             }
-            displayValue = result
-            
+
         }
         
     }
